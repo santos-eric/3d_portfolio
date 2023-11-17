@@ -2,7 +2,10 @@ import { Suspense } from 'react'
 import { Canvas } from '@react-three/fiber'
 import Loader from '../components/Loader'
 
-{/* <div className="absolute top-28 left-0 right-0 z-10 flex items-cener justify-center">
+// add assetsInclude: ['**/*.glb'], to vite.config to include glb assets
+import Island from '../models/Island'
+
+{/* <div className="absolute top-28 left-0 right-0 z-10 flex items-center justify-center">
         PopUp
       </div> */}
 
@@ -21,7 +24,9 @@ const Home = () => {
           <ambientLight />
           <pointLight />
           <spotLight />
-          <hemisphereLight/>
+          <hemisphereLight />
+
+          <Island/>
         </Suspense>
       </Canvas>
     </section>
