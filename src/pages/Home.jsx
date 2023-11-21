@@ -15,6 +15,7 @@ const Home = () => {
   const adjustIslandForScreenSize = () => {
     let screenScale = null
     let screenPosition = [0, -6.5, -43]
+    let rotation = [0.1,4.7,0]
 
     if (window.innerWidth < 768) {
       // [x,y,z] scale
@@ -23,11 +24,12 @@ const Home = () => {
       screenScale = [1, 1, 1]
     }
 
-    return [screenScale, screenPosition]
+    return [screenScale, screenPosition, rotation]
   }
 
   // destructure the function to use as island component properties
-  const [islandScale, islandPosition] = adjustIslandForScreenSize()
+  // renamed to island...
+  const [islandScale, islandPosition, islandRotation] = adjustIslandForScreenSize()
 
   return (
     // full width and height
@@ -49,7 +51,8 @@ const Home = () => {
 
           <Island
           position={islandPosition}
-          scale={islandScale}
+            scale={islandScale}
+            rotation={islandRotation}
           />
         </Suspense>
       </Canvas>
