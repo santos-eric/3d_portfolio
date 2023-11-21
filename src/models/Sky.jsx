@@ -1,5 +1,7 @@
 // 3D objects can be consumed and used with useGLTF alone but if it contains multiple objects than use the object like on Island.jsx
 
+// 3D sky will rotate as island does
+
 import React from 'react'
 import { useGLTF } from '@react-three/drei'
 
