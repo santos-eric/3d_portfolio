@@ -3,11 +3,13 @@ import React from 'react'
 import planeScene from '../assets/3d/plane.glb'
 import { useGLTF } from '@react-three/drei'
 
-const Plane = () => {
+// don't have to name all the destructured props just spread(...)
+const Plane = ({isRotating, ...props}) => {
     const {scene, animations} = useGLTF(planeScene)
 
-  return (
-      <mesh>
+    return (
+    //   accept all props (...)
+      <mesh {...props}>
           <primitive object={scene}/>
     </mesh>
   )
