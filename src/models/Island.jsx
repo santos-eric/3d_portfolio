@@ -19,10 +19,89 @@ import islandScene from '../assets/3d/island.glb'
 
 // changed to arrow component, original 3D island in assets folder, copied component from GLTF -> react/three-fiber, installed react-spring/three for animation
 
-const Island = (props) => {
-    const islandRef = useRef()
-    // reference error, update it to only reference line 15
-    const { nodes, materials } = useGLTF(islandScene);
+const Island = ({ isRotating, setIsRotating, ...props }) => {
+
+  // used to reference the mouse and island positions, speed of spin
+  const islandRef = useRef();
+  const { gl, viewport } = useThree();
+
+    // reference error, update it to only reference import asset above
+  const { nodes, materials } = useGLTF(islandScene);
+
+  const lastX = useRef(0);
+  const rotationSpeed = useRef(0);
+  const dampingFactor = 0.95;
+
+  // to disable clicking on items, only click to hold and spin
+  const handlePointerDown = (e) => {
+    e.stopPropagation();
+    e.preventDefault()
+    setIsRotating(true)
+
+    // for mobile touch
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    lastX.current = clientX;
+  };
+
+
+  const handlePointerUp = (e) => {
+    e.stopPropagation();
+    e.preventDefault()
+    setIsRotating(false)
+
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+
+    // calculate horizontal change
+    const delta = (clientX - lastX.current) / viewport.width;
+
+    // update island rotation based on the mouse
+    islandRef.current.rotation.y += delta * 0.01 * Math.PI;
+
+    // update the reference for the last client exposition
+    rotationSpeed.current = delta * 0.01 * Math.PI;
+  };
+
+
+  const handlePointerMove = (e) => {
+    e.stopPropagation();
+    e.preventDefault();
+
+    if(isRotating) handlePointerDown(e)
+  };
+
+  // spins the island if keys are pressed
+  const handleKeyDown = (e) => {
+    if (e.key === 'ArrowLeft') {
+      islandRef.current.rotation.y += 0.1 * Math.PI;
+    }else if (e.key === 'ArrowRight') {
+      islandRef.current.rotation.y -= 0.1 * Math.PI;
+    }
+  }
+  const handleKeyUp = (e) => { 
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+      setIsRotating(false)
+    }
+  }
+
+
+
+  // listen to the mouse events
+  useEffect(() => {
+    document.addEventListener('pointerdown', handlePointerDown)
+    document.addEventListener('pointerup', handlePointerUp)
+    document.addEventListener('pointerMove', handlePointerMove)
+    document.addEventListener('keydown', handleKeyDown)
+    document.addEventListener('keyup', handleKeyUp)
+
+    return () => {
+      document.addEventListener('pointerdown', handlePointerDown)
+      document.addEventListener('pointerup', handlePointerUp)
+      document.addEventListener('pointerMove', handlePointerMove)
+      document.addEventListener('keydown', handleKeyDown)
+      document.addEventListener('keyup', handleKeyUp)
+    }
+  }, [gl, handlePointerDown, handlePointerUp, handlePointerMove])
+
 
     return (
     //   added a.group and ref={islandRef}

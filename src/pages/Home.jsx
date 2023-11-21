@@ -1,4 +1,4 @@
-import { Suspense } from 'react'
+import { Suspense, useState } from 'react'
 import { Canvas } from '@react-three/fiber'
 import Loader from '../components/Loader'
 
@@ -13,6 +13,8 @@ import Plane from '../models/Plane'
       </div> */}
 
 const Home = () => {
+
+  const [isRotating, setIsRotating] = useState(false)
 
    // island sizing
   // set island default position and make it mobile getting the screeSize from window.innerWidth
@@ -38,7 +40,9 @@ const Home = () => {
     if (window.innerWidth < 768) {
       // [x,y,z] scale
       screenScale = [1.5, 1.5, 1.5]
-      screenPosition=[0,-1.5,0]
+
+      // sets which way the object is facing
+      screenPosition=[0,-1.5, 0]
     } else {
       screenScale = [3, 3, 3]
       screenPosition=[0,-4,-4]
@@ -58,7 +62,7 @@ const Home = () => {
 
       {/* root component for 3D Scene */}
       <Canvas
-        className='w-full h-screen bg-transparent'
+        className={`w-full h-screen bg-transparent ${isRotating ? 'cursor-grabbing' : 'cursor-grab'}`}
 
       // near 0.1 and further than 1000 won't be rendered
       camera={{near: 0.1, far: 1000}}
@@ -75,19 +79,19 @@ const Home = () => {
           {/* <spotLight /> */}
 
           <hemisphereLight skyColor='#b1e1ff' groundCOlor='#000000'/>
-
-          <Plane
-            // isRotating = {isRotating}
-            planeScale={planeScale}
-            planePosition={planePosition}
-            rotation = {[0,20,0]}
-          />
           <Bird/>
           <Sky/>
           <Island
-          position={islandPosition}
+            position={islandPosition}
             scale={islandScale}
             rotation={islandRotation}
+            isRotating={isRotating}
+            setIsRotating={setIsRotating}
+          />
+          <Plane
+            planeScale={planeScale}
+            planePosition={planePosition}
+            rotation = {[0,20,0]}
           />
         </Suspense>
       </Canvas>
