@@ -4,6 +4,7 @@ import Loader from '../components/Loader'
 
 // add assetsInclude: ['**/*.glb'], to vite.config to include glb assets
 import Island from '../models/Island'
+import Sky from '../models/Sky'
 
 {/* <div className="absolute top-28 left-0 right-0 z-10 flex items-center justify-center">
         PopUp
@@ -55,6 +56,7 @@ const Home = () => {
 
           <hemisphereLight skyColor='#b1e1ff' groundCOlor='#000000'/>
 
+          <Sky/>
           <Island
           position={islandPosition}
             scale={islandScale}

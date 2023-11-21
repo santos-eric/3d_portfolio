@@ -7,6 +7,9 @@ Source: https://sketchfab.com/3d-models/foxs-islands-163b68e09fcc47618450150be77
 Title: Fox's islands
 */
 
+
+//using group component to group meshes (individual objects) and "a"  to interact with them, can use individual objects like on Sky.jsx
+
 import { useRef,useEffect } from "react";
 import { useGLTF } from "@react-three/drei";
 import { useFrame, useThree } from '@react-three/fiber'
