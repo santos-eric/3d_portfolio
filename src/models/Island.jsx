@@ -101,7 +101,7 @@ const Island = ({
   };
 
   useEffect(() => {
-    // Add event listeners for pointer and keyboard events
+    // Add event listeners for pointer and keyboard events,everything is done on the canvas instead of window
     const canvas = gl.domElement;
     canvas.addEventListener("pointerdown", handlePointerDown);
     canvas.addEventListener("pointerup", handlePointerUp);
@@ -158,6 +158,7 @@ const Island = ({
       // Set the current stage based on the island's orientation
       switch (true) {
         case normalizedRotation >= 5.45 && normalizedRotation <= 5.85:
+          // stages are used to display different data on the screen while island is spinning
           setCurrentStage(4);
           break;
         case normalizedRotation >= 0.85 && normalizedRotation <= 1.3:
